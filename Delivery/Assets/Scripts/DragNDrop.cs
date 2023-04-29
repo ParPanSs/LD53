@@ -54,8 +54,6 @@ public class DragNDrop : MonoBehaviour
                     break;
                 }
             }
-
-            
         }
 
         if (!isOverSlot)

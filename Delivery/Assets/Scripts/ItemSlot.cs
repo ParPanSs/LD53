@@ -11,6 +11,7 @@ public class ItemSlot : MonoBehaviour
             GetComponent<SpriteRenderer>().enabled = true;
         }
 
-        slotsManager.CheckFull();
+        if(slotsManager.CheckFull())
+            Destroy(this);
     }
 }
