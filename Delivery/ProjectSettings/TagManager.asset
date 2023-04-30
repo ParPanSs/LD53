@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Slot
+  - Rolling
+  - Hiding
+  - IDLE
+  - Walk
   layers:
   - Default
   - TransparentFX

@@ -6,20 +6,22 @@ public class Player : MonoBehaviour
 {
     private Dictionary<Type, IPlayerBehaviour> behavioursMap;
     private IPlayerBehaviour behaviourCurrent;
+    protected Animator _animator;
 
     private void Start()
     {
-        InitBehavours();
+        _animator = GetComponent<Animator>();
+        InitBehaviours();
         SetBehaviourByDefault();
     }
 
-    private void InitBehavours()
+    private void InitBehaviours()
     {
         behavioursMap = new Dictionary<Type, IPlayerBehaviour>();
 
-        behavioursMap[typeof(PlayerBehaviourActive)] = new PlayerBehaviourActive(); 
-        behavioursMap[typeof(PlayerBehaviourAgressive)] = new PlayerBehaviourAgressive(); 
-        behavioursMap[typeof(PlayerBehaviourIdle)] = new PlayerBehaviourIdle(); 
+        behavioursMap[typeof(PlayerBehaviourHiding)] = new PlayerBehaviourHiding(_animator); 
+        behavioursMap[typeof(PlayerBehaviourWalk)] = new PlayerBehaviourWalk(_animator); 
+        behavioursMap[typeof(PlayerBehaviourIdle)] = new PlayerBehaviourIdle(_animator); 
     }
 
     private void SetBehaviour(IPlayerBehaviour newBehaviour)
@@ -56,15 +58,15 @@ public class Player : MonoBehaviour
         SetBehaviour(behaviour);
     }
 
-    public void SetBehaviourAgressive()
+    public void SetBehaviourHiding()
     {
-        var behaviour = GetBehaviour<PlayerBehaviourAgressive>();
+        var behaviour = GetBehaviour<PlayerBehaviourHiding>();
         SetBehaviour(behaviour);
     }
 
-    public void SetBehaviourActive()
+    public void SetBehaviourWalk()
     {
-        var behaviour = GetBehaviour<PlayerBehaviourActive>();
+        var behaviour = GetBehaviour<PlayerBehaviourWalk>();
         SetBehaviour(behaviour);
     }
 }

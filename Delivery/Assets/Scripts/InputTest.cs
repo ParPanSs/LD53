@@ -7,10 +7,10 @@ public class InputTest : MonoBehaviour
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.A))
-            player.SetBehaviourAgressive();
+            player.SetBehaviourWalk();
         if(Input.GetKeyDown(KeyCode.C))
-            player.SetBehaviourActive();
-        if(Input.GetKeyDown(KeyCode.I))
             player.SetBehaviourIdle();
+        if(Input.GetKeyDown(KeyCode.I))
+            player.SetBehaviourHiding();
     }
 }

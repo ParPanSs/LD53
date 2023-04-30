@@ -12,8 +12,5 @@ public class SlotsLoader : MonoBehaviour
         {
             slot.gameObject.SetActive(true);
         }
-
-        //Instantiate(player, new Vector2(playerSpawnPosition.position.x, playerSpawnPosition.position.y),
-            //Quaternion.identity);
     }
 }
