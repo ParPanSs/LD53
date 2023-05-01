@@ -9,10 +9,8 @@ public class Player : MonoBehaviour
     [SerializeField] protected Animator Animator;
     protected Rigidbody2D Rb;
 
-    private Rigidbody2D _leftWheel;
-    private Rigidbody2D _rightWheel;
-
-    protected float Speed = 10f;
+    protected float Speed = 5f;
+    private float _acceleration = 10f;
     public float maxHp = 100f;
     public float currentHealth;
 
@@ -52,16 +50,36 @@ public class Player : MonoBehaviour
         SetBehaviourIdle();
     }
 
-    private T GetBehaviour<T>() where T : IPlayerBehaviour
+    private IPlayerBehaviour GetBehaviour<T>() where T : IPlayerBehaviour
     {
         var type = typeof(T);
-        return (T) behavioursMap[type];
+        //if(behavioursMap != null)
+        return behavioursMap?[type];
+        // else
+        // {
+        //     InitBehaviours();
+        // }
+        //
+        // return (T) behaviourCurrent;
     }
 
     private void Update()
     {
         if(behaviourCurrent != null)
             behaviourCurrent.Update();
+    }
+
+    private void FixedUpdate()
+    {
+        // Rb.velocity += (Vector2)transform.forward * _acceleration * Time.fixedDeltaTime;
+        // Rb.velocity = Vector3.ClampMagnitude(Rb.velocity, Speed);
+        // transform.Translate(Rb.velocity * Time.fixedDeltaTime, Space.World);
+        
+        // Vector3 movement = Vector3.forward; // движение вправо
+        // movement = movement.normalized * _acceleration; // нормализация вектора и умножение на значение ускорения
+        // Rb.AddForce(movement, ForceMode2D.Force); // добавление силы к телу
+        var step = .5f * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, transform.position, step);
     }
 
     public void SetBehaviourIdle()
@@ -89,7 +107,7 @@ public class Player : MonoBehaviour
         {
             SetBehaviourWalk();
         }
-        if (col.CompareTag("Hiding"))
+        if (col.CompareTag("Hiding") && currentHealth > 0)
         {
             SetBehaviourHiding();
         }
