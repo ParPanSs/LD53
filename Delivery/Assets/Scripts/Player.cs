@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private Dictionary<Type, IPlayerBehaviour> behavioursMap;
     private IPlayerBehaviour behaviourCurrent;
-    protected Animator Animator;
+    [SerializeField] protected Animator Animator;
     protected Rigidbody2D Rb;
 
     private Rigidbody2D _leftWheel;
@@ -23,7 +22,7 @@ public class Player : MonoBehaviour
         currentHealth = maxHp;
         healthBar.SetMaxHealth(maxHp);
         Rb = GetComponent<Rigidbody2D>();
-        Animator = GetComponent<Animator>();
+        //Animator = GetComponent<Animator>();
         InitBehaviours();
         SetBehaviourByDefault();
     }
@@ -53,10 +52,10 @@ public class Player : MonoBehaviour
         SetBehaviourIdle();
     }
 
-    private IPlayerBehaviour GetBehaviour<T>() where T : IPlayerBehaviour
+    private T GetBehaviour<T>() where T : IPlayerBehaviour
     {
         var type = typeof(T);
-        return behavioursMap[type];
+        return (T) behavioursMap[type];
     }
 
     private void Update()
@@ -81,5 +80,22 @@ public class Player : MonoBehaviour
     {
         var behaviour = GetBehaviour<PlayerBehaviourWalk>();
         SetBehaviour(behaviour);
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        Debug.Log("DETECTED");
+        if (col.CompareTag("Walk"))
+        {
+            SetBehaviourWalk();
+        }
+        if (col.CompareTag("Hiding"))
+        {
+            SetBehaviourHiding();
+        }
+        if (col.CompareTag("IDLE"))
+        {
+            SetBehaviourIdle();
+        }
     }
 }

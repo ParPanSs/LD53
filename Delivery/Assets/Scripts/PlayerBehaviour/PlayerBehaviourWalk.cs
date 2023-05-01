@@ -11,11 +11,14 @@ public class PlayerBehaviourWalk : Player, IPlayerBehaviour
     }
     public void Enter()
     {
+        Debug.Log("Enter walk Behaviour");
+
         Animator.SetBool("Walk", true);
     }
 
     public void Exit()
     {
+        Debug.Log("Exit walk Behaviour");
         Animator.SetBool("Walk", false);
     }
 

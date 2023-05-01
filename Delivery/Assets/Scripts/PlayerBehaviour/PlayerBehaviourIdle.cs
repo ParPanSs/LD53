@@ -12,6 +12,8 @@ public class PlayerBehaviourIdle : Player, IPlayerBehaviour
 
     public void Enter()
     {
+        Debug.Log("Enter idle Behaviour");
+
         Rb.velocity = new Vector2(0, 0);
         Animator.SetBool("IDLE", true);
         //StartCoroutine(DeathCoroutine());
@@ -19,6 +21,8 @@ public class PlayerBehaviourIdle : Player, IPlayerBehaviour
 
     public void Exit()
     {
+        Debug.Log("Exit idle Behaviour");
+
         Animator.SetBool("IDLE", false);
     }
 

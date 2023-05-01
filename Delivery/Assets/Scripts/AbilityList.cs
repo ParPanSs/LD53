@@ -5,25 +5,23 @@ public class AbilityList : MonoBehaviour
     private Animator _animator;
     private bool isMoving = false;
     private bool isOpen;
-    private float duration = .5f; // длительность анимации в секундах
+    private float duration = .5f;
     private float timer = 0f;
     private Vector3 startPosition;
+    private Vector3 abilityStartPosition;
+    
     private Vector3 endPosition;
-
-    [SerializeField] private GameObject[] abilities;
+    private Vector3 abilityEndPosition;
 
     private void OnMouseDown()
     {
-        foreach (var ability in abilities)
-        {
-            ability.SetActive(true);
-        }
+        
         isOpen = !isOpen;
         if (isOpen)
         {
             isMoving = true;
             startPosition = transform.position;
-            endPosition = startPosition + Vector3.up * 2.2f; // перемещаем объект вверх на 2 единицы
+            endPosition = startPosition + Vector3.up * 2.2f; 
         }
         else
         {
@@ -50,7 +48,9 @@ public class AbilityList : MonoBehaviour
             gameObject.transform.GetChild(1).childCount == 0 &&
             gameObject.transform.GetChild(2).childCount == 0)
         {
-            _animator.SetBool("isOpen", false);
+            timer += Time.deltaTime;
+            float t = timer / duration;
+            transform.position = Vector3.Lerp(startPosition, endPosition, t);
             Destroy(this);
         }
     }

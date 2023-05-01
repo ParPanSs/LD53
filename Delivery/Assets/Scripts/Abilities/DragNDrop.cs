@@ -8,7 +8,7 @@ public class DragNDrop : MonoBehaviour
 
     private void Start()
     {
-        startPosition = transform.position;
+        startPosition = new Vector3(transform.position.x, transform.position.y + 2f);
         startParent = transform.parent;
     }
     private void OnMouseDown()

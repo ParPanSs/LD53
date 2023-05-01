@@ -12,11 +12,14 @@ public class PlayerBehaviourHiding : Player, IPlayerBehaviour
     }
     public void Enter()
     {
+        Debug.Log("Enter hiding Behaviour");
         Animator.SetBool("Hiding", true);
     }
 
     public void Exit()
     {
+        Debug.Log("Exit hiding Behaviour");
+
         Animator.SetBool("Hiding", false);
     }
 
@@ -24,11 +27,12 @@ public class PlayerBehaviourHiding : Player, IPlayerBehaviour
     {
         if (currentHealth > 0)
         {
-            currentHealth -= 0.01f;
+            currentHealth -= 0.05f;
             healthBar.SetHealth(currentHealth);
         }
-        else
+        else if(currentHealth <= 0)
         {
+            SetBehaviourIdle();
             Debug.Log("You broke the cargo");
         }
     }

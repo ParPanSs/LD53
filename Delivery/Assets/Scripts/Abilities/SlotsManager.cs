@@ -4,6 +4,7 @@ using UnityEngine;
 public class SlotsManager : MonoBehaviour
 {
     [SerializeField] private Transform[] slots;
+    [SerializeField] private Transform[] zones;
     [SerializeField] private GameObject button;
 
     public void CheckFull()

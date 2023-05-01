@@ -14,8 +14,15 @@ public class DetectableObjectReaction : MonoBehaviour
 
     private void OnEnable()
     {
-        _detectableObject.OnGameObjectDetectedEvent += OnGameObjectDetect;
-        _detectableObject.OnGameObjectDetectionReleasedEvent += OnGameObjectDetectionReleased;
+        if (player != null)
+        {
+            _detectableObject.OnGameObjectDetectedEvent += OnGameObjectDetect;
+            _detectableObject.OnGameObjectDetectionReleasedEvent += OnGameObjectDetectionReleased;
+        }
+        else
+        {
+            OnEnable();
+        }
     }
 
     private void OnDisable()
@@ -43,6 +50,7 @@ public class DetectableObjectReaction : MonoBehaviour
     
     private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
     {
+        Debug.Log("Detected smth");
         SetPlayerBehaviour();
     }
     private void OnGameObjectDetectionReleased(GameObject source, GameObject detectedObject)
