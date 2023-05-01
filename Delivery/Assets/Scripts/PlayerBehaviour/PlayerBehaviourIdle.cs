@@ -1,26 +1,34 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerBehaviourIdle : Player, IPlayerBehaviour
 {
-    public PlayerBehaviourIdle(Animator animator)
+    public PlayerBehaviourIdle(Animator animator, Rigidbody2D rb)
     {
-        _animator = animator;
+        Animator = animator;
+        Rb = rb;
     }
 
     public void Enter()
     {
-        _animator.SetBool("IDLE", true);
-        Debug.Log("Enter idle state");
+        Rb.velocity = new Vector2(0, 0);
+        Animator.SetBool("IDLE", true);
+        //StartCoroutine(DeathCoroutine());
     }
 
     public void Exit()
     {
-        _animator.SetBool("IDLE", false);
-        Debug.Log("Exit idle state");
+        Animator.SetBool("IDLE", false);
     }
 
     public void Update()
     {
-        Debug.Log("Update idle state");
+    }
+
+    private IEnumerator DeathCoroutine()
+    {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

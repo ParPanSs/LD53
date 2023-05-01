@@ -47,6 +47,6 @@ public class DetectableObjectReaction : MonoBehaviour
     }
     private void OnGameObjectDetectionReleased(GameObject source, GameObject detectedObject)
     {
-        //SetPlayerBehaviour();
+        
     }
 }

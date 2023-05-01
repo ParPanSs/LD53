@@ -11,7 +11,6 @@ public class DragNDrop : MonoBehaviour
         startPosition = transform.position;
         startParent = transform.parent;
     }
-
     private void OnMouseDown()
     {
         if (!isDragging)
@@ -25,7 +24,7 @@ public class DragNDrop : MonoBehaviour
         if (isDragging)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector3(mousePosition.x, mousePosition.y, 0f);
+            transform.position = new Vector2(mousePosition.x, mousePosition.y);
         }
     }
 
@@ -61,8 +60,5 @@ public class DragNDrop : MonoBehaviour
             transform.position = startPosition;
             transform.SetParent(startParent);
         }
-
     }
-
-    
 }

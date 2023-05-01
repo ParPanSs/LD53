@@ -1,16 +1,29 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private Dictionary<Type, IPlayerBehaviour> behavioursMap;
     private IPlayerBehaviour behaviourCurrent;
-    protected Animator _animator;
+    protected Animator Animator;
+    protected Rigidbody2D Rb;
 
+    private Rigidbody2D _leftWheel;
+    private Rigidbody2D _rightWheel;
+
+    protected float Speed = 10f;
+    public float maxHp = 100f;
+    public float currentHealth;
+
+    public HealthBar healthBar;
     private void Start()
     {
-        _animator = GetComponent<Animator>();
+        currentHealth = maxHp;
+        //healthBar.SetMaxHealth(maxHp);
+        Rb = GetComponent<Rigidbody2D>();
+        Animator = GetComponent<Animator>();
         InitBehaviours();
         SetBehaviourByDefault();
     }
@@ -19,9 +32,9 @@ public class Player : MonoBehaviour
     {
         behavioursMap = new Dictionary<Type, IPlayerBehaviour>();
 
-        behavioursMap[typeof(PlayerBehaviourHiding)] = new PlayerBehaviourHiding(_animator); 
-        behavioursMap[typeof(PlayerBehaviourWalk)] = new PlayerBehaviourWalk(_animator); 
-        behavioursMap[typeof(PlayerBehaviourIdle)] = new PlayerBehaviourIdle(_animator); 
+        behavioursMap[typeof(PlayerBehaviourHiding)] = new PlayerBehaviourHiding(Animator, Rb, Speed, currentHealth, healthBar);
+        behavioursMap[typeof(PlayerBehaviourWalk)] = new PlayerBehaviourWalk(Animator, Rb, Speed, currentHealth);
+        behavioursMap[typeof(PlayerBehaviourIdle)] = new PlayerBehaviourIdle(Animator, Rb);
     }
 
     private void SetBehaviour(IPlayerBehaviour newBehaviour)
@@ -37,7 +50,7 @@ public class Player : MonoBehaviour
 
     private void SetBehaviourByDefault()
     {
-        SetBehaviourIdle();
+        SetBehaviourHiding();
     }
 
     private IPlayerBehaviour GetBehaviour<T>() where T : IPlayerBehaviour

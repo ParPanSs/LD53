@@ -2,24 +2,34 @@ using UnityEngine;
 
 public class PlayerBehaviourHiding : Player, IPlayerBehaviour
 {
-    public PlayerBehaviourHiding(Animator animator)
+    public PlayerBehaviourHiding(Animator animator, Rigidbody2D rb, float speed, float currentHp, HealthBar health)
     {
-        _animator = animator;
+        Animator = animator;
+        Rb = rb;
+        Speed = speed;
+        currentHealth = currentHp;
+        healthBar = health;
     }
     public void Enter()
     {
-        _animator.SetBool("Hiding", true);
-        Debug.Log("Enter hiding state");
+        Animator.SetBool("Hiding", true);
     }
 
     public void Exit()
     {
-        _animator.SetBool("Hiding", false);
-        Debug.Log("Exit hiding state");
+        Animator.SetBool("Hiding", false);
     }
 
     public void Update()
     {
-        Debug.Log("Update hiding state");
+        if (currentHealth > 0)
+        {
+            currentHealth -= 0.01f;
+            healthBar.SetHealth(currentHealth);
+        }
+        else
+        {
+            Debug.Log("You broke the cargo");
+        }
     }
 }

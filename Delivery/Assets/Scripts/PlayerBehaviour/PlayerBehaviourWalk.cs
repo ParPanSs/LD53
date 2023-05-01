@@ -2,24 +2,24 @@ using UnityEngine;
 
 public class PlayerBehaviourWalk : Player, IPlayerBehaviour
 {
-    public PlayerBehaviourWalk(Animator animator)
-    {
-        _animator = animator;
+    public PlayerBehaviourWalk(Animator animator, Rigidbody2D rb, float speed, float hp)
+    { 
+        Animator = animator;
+        Rb = rb;
+        Speed = speed;
+        currentHealth = hp;
     }
     public void Enter()
     {
-        _animator.SetBool("Walk", true);
-        Debug.Log("Enter walk state");
+        Animator.SetBool("Walk", true);
     }
 
     public void Exit()
     {
-        _animator.SetBool("Walk", false);
-        Debug.Log("Exit walk state");
+        Animator.SetBool("Walk", false);
     }
 
     public void Update()
     {
-        Debug.Log("Update walk state");
     }
 }
