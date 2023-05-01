@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHp;
-        //healthBar.SetMaxHealth(maxHp);
+        healthBar.SetMaxHealth(maxHp);
         Rb = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
         InitBehaviours();
@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
 
     private void SetBehaviourByDefault()
     {
-        SetBehaviourHiding();
+        SetBehaviourIdle();
     }
 
     private IPlayerBehaviour GetBehaviour<T>() where T : IPlayerBehaviour
