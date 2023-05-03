@@ -20,13 +20,13 @@ public class AbilityList : MonoBehaviour
         {
             isMoving = true;
             startPosition = transform.position;
-            endPosition = startPosition + Vector3.up * 3f; 
+            endPosition = startPosition + Vector3.up * 2.9f; 
         }
         else
         {
             isMoving = true;
             startPosition = transform.position;
-            endPosition = startPosition - Vector3.up * 3f;
+            endPosition = startPosition - Vector3.up * 2.9f;
         }
     }
 

@@ -14,7 +14,7 @@ public class PlayerBehaviourHiding : Player, IPlayerBehaviour
     }
     public void Enter()
     {
-        Speed = 15f;
+        Speed = 10f;
         Debug.Log("Enter hiding Behaviour");
         Animator.SetBool("Hiding", true);
     }
@@ -24,14 +24,14 @@ public class PlayerBehaviourHiding : Player, IPlayerBehaviour
         Debug.Log("Exit hiding Behaviour");
 
         Animator.SetBool("Hiding", false);
-        Speed = 5f;
+        Speed = 1.5f;
     }
 
     public void Update()
     {
         if (currentHealth > 0)
         {
-            currentHealth -= 0.05f;
+            currentHealth -= Speed * Time.deltaTime;
             healthBar.SetHealth(currentHealth);
         }
         else
