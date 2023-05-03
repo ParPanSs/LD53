@@ -2,16 +2,19 @@ using UnityEngine;
 
 public class PlayerBehaviourHiding : Player, IPlayerBehaviour
 {
-    public PlayerBehaviourHiding(Animator animator, Rigidbody2D rb, float speed, float currentHp, HealthBar health)
+    public PlayerBehaviourHiding(Animator animator, Rigidbody2D rb, float speed, float currentHp, HealthBar health,
+        GameObject button)
     {
         Animator = animator;
         Rb = rb;
         Speed = speed;
         currentHealth = currentHp;
         healthBar = health;
+        restartButton = button;
     }
     public void Enter()
     {
+        Speed = 15f;
         Debug.Log("Enter hiding Behaviour");
         Animator.SetBool("Hiding", true);
     }
@@ -21,6 +24,7 @@ public class PlayerBehaviourHiding : Player, IPlayerBehaviour
         Debug.Log("Exit hiding Behaviour");
 
         Animator.SetBool("Hiding", false);
+        Speed = 5f;
     }
 
     public void Update()
@@ -30,9 +34,9 @@ public class PlayerBehaviourHiding : Player, IPlayerBehaviour
             currentHealth -= 0.05f;
             healthBar.SetHealth(currentHealth);
         }
-        else if(currentHealth <= 0)
+        else
         {
-            SetBehaviourIdle();
+            restartButton.SetActive(true);
             Debug.Log("You broke the cargo");
         }
     }

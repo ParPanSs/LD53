@@ -15,19 +15,18 @@ public class AbilityList : MonoBehaviour
 
     private void OnMouseDown()
     {
-        
         isOpen = !isOpen;
         if (isOpen)
         {
             isMoving = true;
             startPosition = transform.position;
-            endPosition = startPosition + Vector3.up * 2.2f; 
+            endPosition = startPosition + Vector3.up * 3f; 
         }
         else
         {
             isMoving = true;
             startPosition = transform.position;
-            endPosition = startPosition - Vector3.up * 2.2f;
+            endPosition = startPosition - Vector3.up * 3f;
         }
     }
 
@@ -43,15 +42,6 @@ public class AbilityList : MonoBehaviour
                 isMoving = false;
                 timer = 0f;
             }
-        }
-        if (gameObject.transform.GetChild(0).childCount == 0 &&
-            gameObject.transform.GetChild(1).childCount == 0 &&
-            gameObject.transform.GetChild(2).childCount == 0)
-        {
-            timer += Time.deltaTime;
-            float t = timer / duration;
-            transform.position = Vector3.Lerp(startPosition, endPosition, t);
-            Destroy(this);
         }
     }
 }

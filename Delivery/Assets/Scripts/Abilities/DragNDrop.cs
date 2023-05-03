@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DragNDrop : MonoBehaviour
 {
-    private bool isDragging = false;
+    private bool isDragging;
     private Vector3 startPosition;
     private Transform startParent;
 
@@ -23,8 +23,11 @@ public class DragNDrop : MonoBehaviour
     {
         if (isDragging)
         {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector2(mousePosition.x, mousePosition.y);
+            if (Camera.main != null)
+            {
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                transform.position = new Vector2(mousePosition.x, mousePosition.y);
+            }
         }
     }
 
@@ -40,7 +43,7 @@ public class DragNDrop : MonoBehaviour
         {
             if (collider.CompareTag("Slot"))
             {
-                if (collider.gameObject.transform.childCount == 1)
+                if (collider.gameObject.transform.childCount == 2)
                 {
                     transform.position = startPosition;
                 }

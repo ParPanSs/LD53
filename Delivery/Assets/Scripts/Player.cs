@@ -1,26 +1,33 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    public static float Speed;
+
     private Dictionary<Type, IPlayerBehaviour> behavioursMap;
     private IPlayerBehaviour behaviourCurrent;
     [SerializeField] protected Animator Animator;
     protected Rigidbody2D Rb;
 
-    protected float Speed = 5f;
-    private float _acceleration = 10f;
-    public float maxHp = 100f;
-    public float currentHealth;
+    [SerializeField] protected GameObject restartButton;
 
-    public HealthBar healthBar;
+    [SerializeField] private GameObject finishAnimator;
+    private const float MaxHp = 100f;
+    public static float currentHealth;
+
+    [SerializeField] protected HealthBar healthBar;
+
+    public float timer;
+
     private void Start()
     {
-        currentHealth = maxHp;
-        healthBar.SetMaxHealth(maxHp);
+        Speed = 5f;
+        currentHealth = MaxHp;
+        healthBar.SetMaxHealth(MaxHp);
         Rb = GetComponent<Rigidbody2D>();
-        //Animator = GetComponent<Animator>();
         InitBehaviours();
         SetBehaviourByDefault();
     }
@@ -29,9 +36,10 @@ public class Player : MonoBehaviour
     {
         behavioursMap = new Dictionary<Type, IPlayerBehaviour>();
 
-        behavioursMap[typeof(PlayerBehaviourHiding)] = new PlayerBehaviourHiding(Animator, Rb, Speed, currentHealth, healthBar);
+        behavioursMap[typeof(PlayerBehaviourHiding)] = new PlayerBehaviourHiding(Animator, Rb, Speed, currentHealth, healthBar, restartButton);
         behavioursMap[typeof(PlayerBehaviourWalk)] = new PlayerBehaviourWalk(Animator, Rb, Speed, currentHealth);
         behavioursMap[typeof(PlayerBehaviourIdle)] = new PlayerBehaviourIdle(Animator, Rb);
+        behavioursMap[typeof(PlayerBehaviourStick)] = new PlayerBehaviourStick(Animator, Rb);
     }
 
     private void SetBehaviour(IPlayerBehaviour newBehaviour)
@@ -53,33 +61,15 @@ public class Player : MonoBehaviour
     private IPlayerBehaviour GetBehaviour<T>() where T : IPlayerBehaviour
     {
         var type = typeof(T);
-        //if(behavioursMap != null)
-        return behavioursMap?[type];
-        // else
-        // {
-        //     InitBehaviours();
-        // }
-        //
-        // return (T) behaviourCurrent;
+        return behavioursMap[type];
     }
 
     private void Update()
     {
+        UpdateTimer();
+        Debug.Log(Speed);
         if(behaviourCurrent != null)
             behaviourCurrent.Update();
-    }
-
-    private void FixedUpdate()
-    {
-        // Rb.velocity += (Vector2)transform.forward * _acceleration * Time.fixedDeltaTime;
-        // Rb.velocity = Vector3.ClampMagnitude(Rb.velocity, Speed);
-        // transform.Translate(Rb.velocity * Time.fixedDeltaTime, Space.World);
-        
-        // Vector3 movement = Vector3.forward; // движение вправо
-        // movement = movement.normalized * _acceleration; // нормализация вектора и умножение на значение ускорения
-        // Rb.AddForce(movement, ForceMode2D.Force); // добавление силы к телу
-        var step = .5f * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, transform.position, step);
     }
 
     public void SetBehaviourIdle()
@@ -100,6 +90,16 @@ public class Player : MonoBehaviour
         SetBehaviour(behaviour);
     }
 
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void UpdateTimer()
+    {
+        timer += Time.deltaTime;
+        float seconds = Mathf.FloorToInt(timer % 60);
+    }
     private void OnTriggerEnter2D(Collider2D col)
     {
         Debug.Log("DETECTED");
@@ -107,13 +107,24 @@ public class Player : MonoBehaviour
         {
             SetBehaviourWalk();
         }
-        if (col.CompareTag("Hiding") && currentHealth > 0)
+        if (col.CompareTag("Hiding"))
         {
             SetBehaviourHiding();
         }
         if (col.CompareTag("IDLE"))
         {
             SetBehaviourIdle();
+        }
+
+        if (col.CompareTag("Finish"))
+        {
+            finishAnimator.SetActive(true);
+            this.enabled = false;
+        }
+
+        if (col.CompareTag("Sticky"))
+        {
+            restartButton.SetActive(true);
         }
     }
 }

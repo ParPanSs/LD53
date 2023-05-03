@@ -9,6 +9,12 @@ TagManager:
   - Hiding
   - IDLE
   - Walk
+  - Hill
+  - Ground
+  - Wall
+  - Ceiling
+  - Sticky
+  - Animator
   layers:
   - Default
   - TransparentFX

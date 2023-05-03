@@ -15,8 +15,7 @@ public class MainMenu : MonoBehaviour
     {
         animator.SetBool("isFade", true);
         float timer = Time.deltaTime;
-        if(timer >= 1f)    
-            Application.Quit();
+        Application.Quit();
     }
 
     IEnumerator LoadGame()
