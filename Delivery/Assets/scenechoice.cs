@@ -13,4 +13,8 @@ public class scenechoice : MonoBehaviour
     {
         SceneManager.LoadScene(4);
     }
+    public void LoadThirdLevel()
+    {
+        SceneManager.LoadScene(5);
+    }
 }
